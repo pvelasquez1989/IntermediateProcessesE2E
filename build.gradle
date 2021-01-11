@@ -1,0 +1,49 @@
+group 'co.com.bancolombia.certificacion.cucumbergherkin'
+version '1.1'
+
+repositories {
+    maven { url  "https://artifactory.apps.bancolombia.com/maven-bancolombia"}
+    jcenter()
+}
+
+buildscript {
+    repositories {
+        maven { url "https://artifactory.apps.bancolombia.com/maven-bancolombia"}
+        jcenter()
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.0.73")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'net.serenity-bdd.aggregator'
+
+dependencies {
+    testCompile 'net.serenity-bdd:serenity-core:2.0.73'                  
+    testCompile 'net.serenity-bdd:serenity-junit:2.0.73'                
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.5.2')
+    testCompile('org.assertj:assertj-core:3.13.2')
+    testCompile('org.slf4j:slf4j-simple:1.7.28')
+    
+    compile 'net.serenity-bdd:serenity-core:2.0.73'
+    compile 'net.serenity-bdd:serenity-junit:2.0.73'
+    compile 'net.serenity-bdd:serenity-cucumber:1.9.45'
+    compile 'net.serenity-bdd:serenity-screenplay:2.0.73'
+    compile 'net.serenity-bdd:serenity-screenplay-webdriver:2.0.73'
+    compile group: 'com.codoid.products', name: 'fillo', version: '1.21'
+    	compile group: 'net.sf.jacob-project', name: 'jacob', version: '1.14.3'
+    compile(group: 'co.com.tcs', name: 'sapgui', version: '1.7')
+}
+
+task users(type: Test) {
+	systemProperty 'solman.user', System.getProperty('solman.user')
+	systemProperty 'solman.password', System.getProperty('solman.password')
+	systemProperty 'saperp.user', System.getProperty('saperp.user')
+	systemProperty 'saperp.password', System.getProperty('saperp.password')
+	systemProperty 'successFactors.user', System.getProperty('successFactors.user')
+	systemProperty 'successFactors.password', System.getProperty('successFactors.password')
+}
+gradle.startParameter.continueOnFailure = true
